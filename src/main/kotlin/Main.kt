@@ -1,5 +1,13 @@
+import java.io.File
+
 fun main() {
 
-    println("Hello world")
+    val wordsFile = File("words.txt")
+    wordsFile.createNewFile()
 
+    val listOfWords = wordsFile.readLines()
+
+    listOfWords.forEach {
+        println(it)
+    }
 }
