@@ -11,7 +11,10 @@ fun main() {
 
     for (line in listOfWords) {
         val split = line.split("|")
-        val word = Word(original = split[0], translate = split[1])
+        val word = Word(
+            original = split[0],
+            translate = split[1],
+            correctAnswersCount = split[2].toIntOrNull() ?: 0 )
         dictionary.add(word)
 
     }
@@ -24,5 +27,5 @@ fun main() {
 data class Word(
     var original: String,
     var translate: String,
-    var correctAnswersCount: Int = 0,
+    var correctAnswersCount: Int? = 0,
 )
