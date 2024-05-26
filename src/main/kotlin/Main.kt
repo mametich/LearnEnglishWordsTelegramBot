@@ -29,9 +29,10 @@ fun main() {
             2 -> {
                 val listOfCorrectAnswer = dictionary.filter { it.correctAnswersCount >= 3 }.size
                 val sizeOfWords = dictionary.size
+                val procentOfCorrectAnswer = (listOfCorrectAnswer.toDouble() / sizeOfWords) * 100
                 println(
                     "Выучено: $listOfCorrectAnswer из $sizeOfWords слов | " +
-                            "${(listOfCorrectAnswer.toDouble() / sizeOfWords) * 100}%"
+                            "${"%.0f".format(procentOfCorrectAnswer)}%"
                 )
             }
 
