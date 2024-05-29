@@ -1,5 +1,8 @@
 import java.io.File
 
+private const val COUNT_FOR_REMEMBER = 3
+private const val QUANTITY_OF_WORD = 4
+
 fun main() {
 
     val dictionary = mutableListOf<Word>()
@@ -27,24 +30,22 @@ fun main() {
         val numberFromUser = readlnOrNull()?.toIntOrNull() ?: println("Введите цифру")
         when (numberFromUser) {
             1 -> {
-                val notLearnedWords = dictionary.filter { it.correctAnswersCount < 3 }
+                val notLearnedWords = dictionary.filter { it.correctAnswersCount < COUNT_FOR_REMEMBER }
                 if (notLearnedWords.isEmpty()) {
                     println("Все слова выучены")
                     break
                 } else {
-                    val listOfOriginalWords = notLearnedWords.map { it.original }
-                    val translatedWords = dictionary.map { it.translate }
-                    val currentOriginalWord = listOfOriginalWords.shuffled().take(1)
-                    println("Как переводится слово: $currentOriginalWord")
+                    val currentOriginalWord = notLearnedWords.random()
+                    println("Как переводится слово: ${currentOriginalWord.original}")
 
-                    translatedWords.take(4).shuffled().forEachIndexed { index, word ->
-                        println("${index + 1} - $word")
+                    notLearnedWords.take(QUANTITY_OF_WORD).shuffled().forEachIndexed { index, word ->
+                        println("${index + 1} - ${word.translate}")
                     }
                 }
             }
 
             2 -> {
-                val listOfCorrectAnswer = dictionary.filter { it.correctAnswersCount >= 3 }.size
+                val listOfCorrectAnswer = dictionary.filter { it.correctAnswersCount >= COUNT_FOR_REMEMBER }.size
                 val sizeOfWords = dictionary.size
                 val procentOfCorrectAnswer = (listOfCorrectAnswer.toDouble() / sizeOfWords) * 100
                 println(
@@ -58,7 +59,6 @@ fun main() {
         }
     }
 }
-
 
 data class Word(
     var original: String,
