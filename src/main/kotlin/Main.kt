@@ -1,5 +1,8 @@
 import java.io.File
 
+private const val COUNT_FOR_REMEMBER = 3
+private const val QUANTITY_OF_WORD = 4
+
 fun main() {
 
     val dictionary = mutableListOf<Word>()
@@ -20,14 +23,29 @@ fun main() {
 
     }
 
+    println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Выход")
 
     while (true) {
-        println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Выход")
+
         val numberFromUser = readlnOrNull()?.toIntOrNull() ?: println("Введите цифру")
         when (numberFromUser) {
-            1 -> println("Вы нажали 1")
+            1 -> {
+                val notLearnedWords = dictionary.filter { it.correctAnswersCount < COUNT_FOR_REMEMBER }
+                if (notLearnedWords.isEmpty()) {
+                    println("Все слова выучены")
+                    break
+                } else {
+                    val currentOriginalWord = notLearnedWords.random()
+                    println("Как переводится слово: ${currentOriginalWord.original}")
+
+                    notLearnedWords.take(QUANTITY_OF_WORD).shuffled().forEachIndexed { index, word ->
+                        println("${index + 1} - ${word.translate}")
+                    }
+                }
+            }
+
             2 -> {
-                val listOfCorrectAnswer = dictionary.filter { it.correctAnswersCount >= 3 }.size
+                val listOfCorrectAnswer = dictionary.filter { it.correctAnswersCount >= COUNT_FOR_REMEMBER }.size
                 val sizeOfWords = dictionary.size
                 val procentOfCorrectAnswer = (listOfCorrectAnswer.toDouble() / sizeOfWords) * 100
                 println(
