@@ -20,10 +20,16 @@ fun main() {
             correctAnswersCount = split[2].toIntOrNull() ?: 0
         )
         dictionary.add(word)
-
     }
 
-    println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Выход")
+    fun saveDictionary(list: MutableList<Word>) {
+        list.forEach { countAnswer ->
+            countAnswer.correctAnswersCount
+        }
+        wordsFile.appendText(dictionary.toString())
+    }
+
+    println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Меню")
 
     while (true) {
 
@@ -38,8 +44,22 @@ fun main() {
                     val currentOriginalWord = notLearnedWords.random()
                     println("Как переводится слово: ${currentOriginalWord.original}")
 
-                    notLearnedWords.take(QUANTITY_OF_WORD).shuffled().forEachIndexed { index, word ->
+                    val listOfChooseWords = notLearnedWords.shuffled().take(QUANTITY_OF_WORD)
+
+                    listOfChooseWords.forEachIndexed { index, word ->
                         println("${index + 1} - ${word.translate}")
+                    }
+                    println("Введите номер ответа от 1 до 4:")
+                    val inputNumberFromUser = readln().toIntOrNull()
+                    val indexFromWord = listOfChooseWords.indexOf(currentOriginalWord)
+                    if (inputNumberFromUser == indexFromWord + 1) {
+                        println("Правильно!")
+                        val newCountOfAnswer = currentOriginalWord.correctAnswersCount++
+                        val newWordWithNewCount = currentOriginalWord.copy(correctAnswersCount = newCountOfAnswer)
+                        saveDictionary(dictionary)
+                    } else {
+                        println("Не правильно!")
+                        break
                     }
                 }
             }
@@ -54,11 +74,12 @@ fun main() {
                 )
             }
 
-            0 -> break
+            0 -> println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Меню")
             else -> println("Вы ввели не 1 или 2 или 0")
         }
     }
 }
+
 
 data class Word(
     var original: String,
