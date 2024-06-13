@@ -6,4 +6,4 @@ pen|ручка|0
 school|школа|0
 road|дорога|0
 dog|собака|1
-cat|кошка|3[Word(original=hello, translate=привет, correctAnswersCount=1), Word(original=dog, translate=собака, correctAnswersCount=4), Word(original=cat, translate=кошка, correctAnswersCount=3), Word(original=house, translate=дом, correctAnswersCount=0), Word(original=pen, translate=ручка, correctAnswersCount=0), Word(original=school, translate=школа, correctAnswersCount=0), Word(original=road, translate=дорога, correctAnswersCount=0), Word(original=dog, translate=собака, correctAnswersCount=2), Word(original=cat, translate=кошка, correctAnswersCount=3)]
+cat|кошка|3

@@ -23,10 +23,11 @@ fun main() {
     }
 
     fun saveDictionary(list: MutableList<Word>) {
-        list.forEach { countAnswer ->
-            countAnswer.correctAnswersCount
+        list.forEach { word ->
+            wordsFile.appendText(
+                "${word.original}|${word.translate}|${word.original}|${word.correctAnswersCount}"
+            )
         }
-        wordsFile.appendText(dictionary.toString())
     }
 
     println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Меню")
@@ -54,9 +55,9 @@ fun main() {
                     val indexFromWord = listOfChooseWords.indexOf(currentOriginalWord)
                     if (inputNumberFromUser == indexFromWord + 1) {
                         println("Правильно!")
-                        val newCountOfAnswer = currentOriginalWord.correctAnswersCount++
-                        val newWordWithNewCount = currentOriginalWord.copy(correctAnswersCount = newCountOfAnswer)
+                        currentOriginalWord.correctAnswersCount++
                         saveDictionary(dictionary)
+                        break
                     } else {
                         println("Не правильно!")
                         break
