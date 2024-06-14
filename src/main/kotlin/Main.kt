@@ -22,13 +22,6 @@ fun main() {
         dictionary.add(word)
     }
 
-    fun saveDictionary(list: MutableList<Word>) {
-        list.forEach { word ->
-            wordsFile.appendText(
-                "${word.original}|${word.translate}|${word.original}|${word.correctAnswersCount}"
-            )
-        }
-    }
 
     println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Меню")
 
@@ -56,11 +49,9 @@ fun main() {
                     if (inputNumberFromUser == indexFromWord + 1) {
                         println("Правильно!")
                         currentOriginalWord.correctAnswersCount++
-                        saveDictionary(dictionary)
-                        break
+                        saveDictionary(dictionary, wordsFile)
                     } else {
                         println("Не правильно!")
-                        break
                     }
                 }
             }
@@ -81,6 +72,14 @@ fun main() {
     }
 }
 
+fun saveDictionary(list: MutableList<Word>, file: File) {
+    file.writeText("")
+    list.forEach { word ->
+        file.appendText(
+            "${word.original}|${word.translate}|${word.correctAnswersCount}\n"
+        )
+    }
+}
 
 data class Word(
     var original: String,
