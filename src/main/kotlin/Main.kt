@@ -30,28 +30,30 @@ fun main() {
         val numberFromUser = readlnOrNull()?.toIntOrNull() ?: println("Введите цифру")
         when (numberFromUser) {
             1 -> {
-                val notLearnedWords = dictionary.filter { it.correctAnswersCount < COUNT_FOR_REMEMBER }
-                if (notLearnedWords.isEmpty()) {
-                    println("Все слова выучены")
-                    break
-                } else {
-                    val currentOriginalWord = notLearnedWords.random()
-                    println("Как переводится слово: ${currentOriginalWord.original}")
-
-                    val listOfChooseWords = notLearnedWords.shuffled().take(QUANTITY_OF_WORD)
-
-                    listOfChooseWords.forEachIndexed { index, word ->
-                        println("${index + 1} - ${word.translate}")
-                    }
-                    println("Введите номер ответа от 1 до 4:")
-                    val inputNumberFromUser = readln().toIntOrNull()
-                    val indexFromWord = listOfChooseWords.indexOf(currentOriginalWord)
-                    if (inputNumberFromUser == indexFromWord + 1) {
-                        println("Правильно!")
-                        currentOriginalWord.correctAnswersCount++
-                        saveDictionary(dictionary, wordsFile)
+                while (true) {
+                    val notLearnedWords = dictionary.filter { it.correctAnswersCount < COUNT_FOR_REMEMBER }
+                    if (notLearnedWords.isEmpty()) {
+                        println("Все слова выучены")
+                        break
                     } else {
-                        println("Не правильно!")
+                        val currentOriginalWord = notLearnedWords.random()
+                        println("Как переводится слово: ${currentOriginalWord.original}")
+
+                        val listOfChooseWords = notLearnedWords.shuffled().take(QUANTITY_OF_WORD)
+
+                        listOfChooseWords.forEachIndexed { index, word ->
+                            println("${index + 1} - ${word.translate}")
+                        }
+                        println("Введите номер ответа от 1 до 4:")
+                        val inputNumberFromUser = readln().toIntOrNull()
+                        val indexFromWord = listOfChooseWords.indexOf(currentOriginalWord)
+                        if (inputNumberFromUser == indexFromWord + 1) {
+                            println("Правильно!")
+                            currentOriginalWord.correctAnswersCount++
+                            saveDictionary(dictionary, wordsFile)
+                        } else {
+                            println("Не правильно!")
+                        }
                     }
                 }
             }
