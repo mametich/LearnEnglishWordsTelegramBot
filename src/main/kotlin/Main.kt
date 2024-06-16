@@ -1,5 +1,6 @@
 import java.io.File
 
+
 private const val COUNT_FOR_REMEMBER = 3
 private const val QUANTITY_OF_WORD = 4
 
@@ -22,7 +23,6 @@ fun main() {
         dictionary.add(word)
     }
 
-
     println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Меню")
 
     while (true) {
@@ -35,25 +35,24 @@ fun main() {
                     if (notLearnedWords.isEmpty()) {
                         println("Все слова выучены")
                         break
+                    }
+                    val currentOriginalWord = notLearnedWords.random()
+                    println("Как переводится слово: ${currentOriginalWord.original}")
+
+                    val listOfChooseWords = notLearnedWords.shuffled().take(QUANTITY_OF_WORD)
+
+                    listOfChooseWords.forEachIndexed { index, word ->
+                        println("${index + 1} - ${word.translate}")
+                    }
+                    println("Введите номер ответа от 1 до $QUANTITY_OF_WORD:")
+                    val inputNumberFromUser = readln().toIntOrNull()
+                    val indexFromWord = listOfChooseWords.indexOf(currentOriginalWord)
+                    if (inputNumberFromUser == indexFromWord + 1) {
+                        println("Правильно!")
+                        currentOriginalWord.correctAnswersCount++
+                        saveDictionary(dictionary, wordsFile)
                     } else {
-                        val currentOriginalWord = notLearnedWords.random()
-                        println("Как переводится слово: ${currentOriginalWord.original}")
-
-                        val listOfChooseWords = notLearnedWords.shuffled().take(QUANTITY_OF_WORD)
-
-                        listOfChooseWords.forEachIndexed { index, word ->
-                            println("${index + 1} - ${word.translate}")
-                        }
-                        println("Введите номер ответа от 1 до 4:")
-                        val inputNumberFromUser = readln().toIntOrNull()
-                        val indexFromWord = listOfChooseWords.indexOf(currentOriginalWord)
-                        if (inputNumberFromUser == indexFromWord + 1) {
-                            println("Правильно!")
-                            currentOriginalWord.correctAnswersCount++
-                            saveDictionary(dictionary, wordsFile)
-                        } else {
-                            println("Не правильно!")
-                        }
+                        println("Не правильно!")
                     }
                 }
             }
