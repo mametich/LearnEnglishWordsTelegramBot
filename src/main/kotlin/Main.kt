@@ -73,7 +73,7 @@ fun main() {
     }
 }
 
-fun saveDictionary(list: MutableList<Word>, file: File) {
+fun saveDictionary(list: List<Word>, file: File) {
     file.writeText("")
     list.forEach { word ->
         file.appendText(
