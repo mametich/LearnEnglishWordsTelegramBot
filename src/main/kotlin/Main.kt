@@ -15,12 +15,14 @@ fun main() {
 
     for (line in listOfWords) {
         val split = line.split("|")
-        val word = Word(
-            original = split[0],
-            translate = split[1],
-            correctAnswersCount = split[2].toIntOrNull() ?: 0
-        )
-        dictionary.add(word)
+        if (split.size == COUNT_FOR_REMEMBER) {
+            val word = Word(
+                original = split[0],
+                translate = split[1],
+                correctAnswersCount = split[2].toIntOrNull() ?: 0
+            )
+            dictionary.add(word)
+        }
     }
 
     println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Меню")
