@@ -31,19 +31,30 @@ fun main() {
         when (numberFromUser) {
             1 -> {
                 while (true) {
-                    val notLearnedWords = dictionary.filter { it.correctAnswersCount < COUNT_FOR_REMEMBER }
+                    val notLearnedWords = dictionary.filter { it.correctAnswersCount < COUNT_FOR_REMEMBER }.shuffled()
                     if (notLearnedWords.isEmpty()) {
                         println("Все слова выучены")
                         break
                     }
-                    val currentOriginalWord = notLearnedWords.random()
+
+                    val listOfChooseWords = notLearnedWords.take(QUANTITY_OF_WORD)
+                    val currentOriginalWord = listOfChooseWords.random()
                     println("Как переводится слово: ${currentOriginalWord.original}")
 
-                    val listOfChooseWords = notLearnedWords.shuffled().take(QUANTITY_OF_WORD)
-
-                    listOfChooseWords.forEachIndexed { index, word ->
-                        println("${index + 1} - ${word.translate}")
+                    if (listOfChooseWords.size < QUANTITY_OF_WORD) {
+                        val listOfLearnedWords =
+                            dictionary.filter { it.correctAnswersCount >= COUNT_FOR_REMEMBER }.shuffled()
+                        val showListOfWord =
+                            listOfChooseWords + listOfLearnedWords.take(QUANTITY_OF_WORD - listOfChooseWords.size)
+                        showListOfWord.forEachIndexed { index, word ->
+                            println("${index + 1} - ${word.translate}")
+                        }
+                    } else {
+                        listOfChooseWords.forEachIndexed { index, word ->
+                            println("${index + 1} - ${word.translate}")
+                        }
                     }
+
                     println("Введите номер ответа от 1 до $QUANTITY_OF_WORD:")
                     val inputNumberFromUser = readln().toIntOrNull()
                     val indexFromWord = listOfChooseWords.indexOf(currentOriginalWord)
@@ -56,6 +67,7 @@ fun main() {
                     }
                 }
             }
+
 
             2 -> {
                 val listOfCorrectAnswer = dictionary.filter { it.correctAnswersCount >= COUNT_FOR_REMEMBER }.size
@@ -72,6 +84,7 @@ fun main() {
         }
     }
 }
+
 
 fun saveDictionary(list: List<Word>, file: File) {
     file.writeText("")
