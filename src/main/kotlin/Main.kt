@@ -15,7 +15,7 @@ fun Question.asConsoleToString() : String {
 
 fun main() {
 
-    val trainer = LearnedWordTrainer()
+    val trainer = LearnedWordTrainer(3,4)
 
     while (true) {
         println("Меню: 1 - Учить слова, 2 – Статистика, 0 – Меню")
