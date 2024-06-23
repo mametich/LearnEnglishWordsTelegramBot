@@ -34,8 +34,6 @@ fun main() {
 
                     trainer.checkAnswer(inputNumberFromUser.minus(1))
 
-                    val indexFromWord = question.variants.indexOf(question.correctAnswer)
-
                     if (trainer.checkAnswer(inputNumberFromUser.minus(1))) {
                         println("Правильно!")
                     } else {
