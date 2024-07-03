@@ -3,12 +3,12 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-private const val API = "6968182819:AAFHSXRmw-zj6mAGKYgU5bT8Bvz24h-tk0U"
+private const val API_REQUEST = "https://api.telegram.org/bot"
 
-class TelegramBotService {
+class TelegramBotService(private val token: String) {
 
     fun sendMessage(id: Int, message: String) : String {
-        val urlGetMe = "https://api.telegram.org/bot$API/sendMessage?chat_id=$id&text=$message"
+        val urlGetMe = "$API_REQUEST${token}/sendMessage?chat_id=$id&text=$message"
 
         val client: HttpClient = HttpClient
             .newBuilder()
@@ -24,7 +24,7 @@ class TelegramBotService {
     }
 
     fun getUpdates(updateId: Int): String {
-        val urlGetMe = "https://api.telegram.org/bot$API/getUpdates?offset=$updateId"
+        val urlGetMe = "$API_REQUEST$token/getUpdates?offset=$updateId"
 
         val client: HttpClient = HttpClient
             .newBuilder()
