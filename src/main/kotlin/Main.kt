@@ -13,7 +13,9 @@ fun Question.asConsoleToString() : String {
     return this.correctAnswer.questionWord + "\n" + variants + "\n0 - выйти в меню"
 }
 
-fun main() {
+fun main(args: Array<String>) {
+
+    val botToken = args[0]
 
     val trainer = LearnedWordTrainer(3,4)
 
