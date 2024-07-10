@@ -1,5 +1,11 @@
 import java.io.File
 
+data class Word(
+    var questionWord: String,
+    var translate: String,
+    var correctAnswersCount: Int = 0,
+)
+
 data class Statistics(
     val listOfCorrectAnswer: Int,
     val sizeOfWords: Int,

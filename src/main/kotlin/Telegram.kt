@@ -1,7 +1,3 @@
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
 
 
 fun main(args: Array<String>) {
@@ -13,9 +9,11 @@ fun main(args: Array<String>) {
     var updateId = 0
     var chatId = 0
     var textMessage = ""
+    var dataMessage = ""
 
     val messageChatIdRegex: Regex = "\"chat\":\\{\"id\":(.+?),".toRegex()
     val messageTextRegex: Regex = "\"text\":\"(.+?)\"".toRegex()
+    val dataRegex: Regex = "\"data\":\"(.+?)\"".toRegex()
 
     while (true) {
         Thread.sleep(2000)
@@ -37,10 +35,20 @@ fun main(args: Array<String>) {
         val groups = matchResult?.groups
         val text = groups?.get(1)?.value
         textMessage = text ?: ""
-        if (textMessage == "Hello"){
-            println(telegramBotService.sendMessage(chatId, textMessage))
-        } else {
-            println("Это не хелло")
+
+        val matchResultData: MatchResult? = dataRegex.find(updates)
+        val groupsData = matchResultData?.groups
+        val textData = groupsData?.get(1)?.value
+        dataMessage = textData ?: ""
+
+        if (textMessage.lowercase() == "Hello"){
+            telegramBotService.sendMessage(chatId, textMessage)
+        }
+        if (textMessage.lowercase() == "menu"){
+            telegramBotService.sendMenu(chatId)
+        }
+        if (dataMessage.lowercase() == "statistic_clicked"){
+            telegramBotService.sendMessage(chatId, "Выучено 10 из 10 слов")
         }
     }
 }

@@ -1,10 +1,5 @@
 import java.io.File
 
-data class Word(
-    var questionWord: String,
-    var translate: String,
-    var correctAnswersCount: Int = 0,
-)
 
 fun Question.asConsoleToString() : String {
     val variants = this.variants
