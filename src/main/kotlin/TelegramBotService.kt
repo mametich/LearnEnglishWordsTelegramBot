@@ -5,9 +5,9 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.nio.charset.StandardCharsets
 
-private const val API_REQUEST = "https://api.telegram.org/bot"
-private const val LEARNS_WORDS_CLICKED = "learns_words_clicked"
-private const val STATISTIC_CLICKED = "statistic_clicked"
+const val API_REQUEST = "https://api.telegram.org/bot"
+const val LEARNS_WORDS_CLICKED = "learns_words_clicked"
+const val STATISTIC_CLICKED = "statistic_clicked"
 
 class TelegramBotService(private val token: String) {
 

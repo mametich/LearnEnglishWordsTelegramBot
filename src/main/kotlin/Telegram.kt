@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
     val messageChatIdRegex: Regex = "\"chat\":\\{\"id\":(.+?),".toRegex()
     val messageTextRegex: Regex = "\"text\":\"(.+?)\"".toRegex()
     val dataRegex: Regex = "\"data\":\"(.+?)\"".toRegex()
-    val updateIdRegex: Regex = "\"update_id\":\"(.+?)\"".toRegex()
+    val updateIdRegex: Regex = "\"update_id\":(\\d+)".toRegex()
 
     while (true) {
         Thread.sleep(2000)
@@ -27,12 +27,6 @@ fun main(args: Array<String>) {
         val updateIdString = groupsUpdateId?.get(1)?.value
         updateId = updateIdString?.toIntOrNull() ?: continue
         lastUpdateId = updateId + 1
-
-//        val startUpdateId = updates.lastIndexOf("update_id")
-//        val endUpdateId = updates.lastIndexOf(",\n\"message\"")
-//        if (startUpdateId == -1 || endUpdateId == -1) continue
-//        val updateIdString = updates.substring(startUpdateId + 11, endUpdateId)
-//        updateId = updateIdString.toInt() + 1
 
         val matchResultId: MatchResult? = messageChatIdRegex.find(updates)
         val groupsId = matchResultId?.groups
@@ -49,13 +43,13 @@ fun main(args: Array<String>) {
         val textData = groupsData?.get(1)?.value
         dataMessage = textData ?: ""
 
-        if (textMessage.lowercase() == "Hello"){
+        if (textMessage.lowercase() == "hello"){
             telegramBotService.sendMessage(chatId, textMessage)
         }
         if (textMessage.lowercase() == "menu"){
             telegramBotService.sendMenu(chatId)
         }
-        if (dataMessage.lowercase() == "statistic_clicked"){
+        if (dataMessage.lowercase() == STATISTIC_CLICKED){
             telegramBotService.sendMessage(chatId, "Выучено 10 из 10 слов")
         }
     }
