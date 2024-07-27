@@ -55,7 +55,6 @@ fun main(args: Array<String>) {
 
         }
     }
-
     fun checkNextQuestionAndSend(trainer: LearnWordsTrainer, botToken: String, chatId: Int) {
 
     }
