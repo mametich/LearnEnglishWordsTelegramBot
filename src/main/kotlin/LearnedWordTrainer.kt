@@ -1,5 +1,11 @@
 import java.io.File
 
+data class Word(
+    var questionWord: String,
+    var translate: String,
+    var correctAnswersCount: Int = 0,
+)
+
 data class Statistics(
     val listOfCorrectAnswer: Int,
     val sizeOfWords: Int,
@@ -71,7 +77,13 @@ class LearnedWordTrainer(
         wordsFile.readLines().forEach {
             val splitLine = it.split("|")
             if (splitLine.size == 3) {
-                dictionary.add(Word(splitLine[0], splitLine[1], splitLine[2].toIntOrNull() ?: 0))
+                dictionary.add(
+                    Word(
+                        splitLine[0],
+                        splitLine[1],
+                        splitLine[2].toIntOrNull() ?: 0
+                    )
+                )
             }
         }
         return dictionary

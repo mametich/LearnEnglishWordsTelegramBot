@@ -1,32 +1,31 @@
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-
-
 fun main(args: Array<String>) {
 
     val botToken = args[0]
 
     val telegramBotService = TelegramBotService(botToken)
 
+    var lastUpdateId = 0
     var updateId = 0
     var chatId = 0
     var textMessage = ""
+    var dataMessage = ""
 
     val messageChatIdRegex: Regex = "\"chat\":\\{\"id\":(.+?),".toRegex()
     val messageTextRegex: Regex = "\"text\":\"(.+?)\"".toRegex()
+    val dataRegex: Regex = "\"data\":\"(.+?)\"".toRegex()
+    val updateIdRegex: Regex = "\"update_id\":(\\d+)".toRegex()
 
+    
     while (true) {
         Thread.sleep(2000)
-        val updates: String = telegramBotService.getUpdates(updateId)
+        val updates: String = telegramBotService.getUpdates(lastUpdateId)
         println(updates)
 
-        val startUpdateId = updates.lastIndexOf("update_id")
-        val endUpdateId = updates.lastIndexOf(",\n\"message\"")
-        if (startUpdateId == -1 || endUpdateId == -1) continue
-        val updateIdString = updates.substring(startUpdateId + 11, endUpdateId)
-        updateId = updateIdString.toInt() + 1
+        val matchUpdateId: MatchResult? = updateIdRegex.find(updates)
+        val groupsUpdateId = matchUpdateId?.groups
+        val updateIdString = groupsUpdateId?.get(1)?.value
+        updateId = updateIdString?.toIntOrNull() ?: continue
+        lastUpdateId = updateId + 1
 
         val matchResultId: MatchResult? = messageChatIdRegex.find(updates)
         val groupsId = matchResultId?.groups
@@ -37,11 +36,34 @@ fun main(args: Array<String>) {
         val groups = matchResult?.groups
         val text = groups?.get(1)?.value
         textMessage = text ?: ""
-        if (textMessage == "Hello"){
-            println(telegramBotService.sendMessage(chatId, textMessage))
-        } else {
-            println("Это не хелло")
+
+        val matchResultData: MatchResult? = dataRegex.find(updates)
+        val groupsData = matchResultData?.groups
+        val textData = groupsData?.get(1)?.value
+        dataMessage = textData ?: ""
+
+        if (textMessage.lowercase() == "hello") {
+            telegramBotService.sendMessage(chatId, textMessage)
+        }
+        if (textMessage.lowercase() == "menu") {
+            telegramBotService.sendMenu(chatId)
+        }
+        if (dataMessage.lowercase() == STATISTIC_CLICKED) {
+            telegramBotService.sendMessage(chatId, "Выучено 10 из 10 слов")
+        }
+
+        // Внутри условия, получи следующий вопрос из trainer’а.
+        // Если вопрос отсутствует, отправь сообщение "Вы выучили все слова в базе",
+        // в ином случае осуществи отправку вопроса (sendQuestion())
+        // Я понимаю в этом классе нужно создать объект класcа learnedWordTrainer
+        if (dataMessage.lowercase() == LEARNS_WORDS_CLICKED) {
+
         }
     }
+    //не могу понять этот метод сюда добавлять? для проверки ответа
+    fun checkNextQuestionAndSend(trainer: LearnWordsTrainer, botToken: String, chatId: Int) {
+
+    }
+
 }
 
