@@ -1,5 +1,3 @@
-
-
 fun main(args: Array<String>) {
 
     val botToken = args[0]
@@ -17,6 +15,7 @@ fun main(args: Array<String>) {
     val dataRegex: Regex = "\"data\":\"(.+?)\"".toRegex()
     val updateIdRegex: Regex = "\"update_id\":(\\d+)".toRegex()
 
+    
     while (true) {
         Thread.sleep(2000)
         val updates: String = telegramBotService.getUpdates(lastUpdateId)
@@ -43,15 +42,23 @@ fun main(args: Array<String>) {
         val textData = groupsData?.get(1)?.value
         dataMessage = textData ?: ""
 
-        if (textMessage.lowercase() == "hello"){
+        if (textMessage.lowercase() == "hello") {
             telegramBotService.sendMessage(chatId, textMessage)
         }
-        if (textMessage.lowercase() == "menu"){
+        if (textMessage.lowercase() == "menu") {
             telegramBotService.sendMenu(chatId)
         }
-        if (dataMessage.lowercase() == STATISTIC_CLICKED){
+        if (dataMessage.lowercase() == STATISTIC_CLICKED) {
             telegramBotService.sendMessage(chatId, "Выучено 10 из 10 слов")
         }
+        if (dataMessage.lowercase() == LEARNS_WORDS_CLICKED) {
+
+        }
     }
+
+    fun checkNextQuestionAndSend(trainer: LearnWordsTrainer, botToken: String, chatId: Int) {
+
+    }
+
 }
 
