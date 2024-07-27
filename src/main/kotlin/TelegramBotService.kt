@@ -89,6 +89,9 @@ class TelegramBotService(private val token: String) {
         return response.body()
     }
 
+    //тут тоже, callback_data конкатенацию константы CALLBACK_DATA_ANSWER_PREFIX и индекса варианта ответа.
+    //как это реализовать не могу разобраться
+
     fun sendQuestion(botToken: String, chatId: Int, question: Question): String {
         val urlSendQuestion = "$API_REQUEST${token}/sendMessage"
 

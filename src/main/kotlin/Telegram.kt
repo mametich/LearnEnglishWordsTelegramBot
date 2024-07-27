@@ -51,10 +51,16 @@ fun main(args: Array<String>) {
         if (dataMessage.lowercase() == STATISTIC_CLICKED) {
             telegramBotService.sendMessage(chatId, "Выучено 10 из 10 слов")
         }
+
+        // Внутри условия, получи следующий вопрос из trainer’а.
+        // Если вопрос отсутствует, отправь сообщение "Вы выучили все слова в базе",
+        // в ином случае осуществи отправку вопроса (sendQuestion())
+        // Я понимаю в этом классе нужно создать объект класcа learnedWordTrainer
         if (dataMessage.lowercase() == LEARNS_WORDS_CLICKED) {
 
         }
     }
+    //не могу понять этот метод сюда добавлять? для проверки ответа
     fun checkNextQuestionAndSend(trainer: LearnWordsTrainer, botToken: String, chatId: Int) {
 
     }
